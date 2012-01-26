@@ -11,6 +11,7 @@ class BootstrapPaginatorHelper extends PaginatorHelper {
 	 * @param string $key
 	 * @param mixed $title
 	 * @param array $options
+	 *
 	 * @return string
 	 */
 	public function sortTableHeader($key, $title = null, $options = array()) {
@@ -30,7 +31,7 @@ class BootstrapPaginatorHelper extends PaginatorHelper {
 
 		if ($isSorted) {
 			$dir = $this->sortDir($options['model']) === 'asc' ? 'desc' : 'asc';
-			$class = $dir === 'asc' ? 'headerSortDown' : 'headerSortUp';
+			$class = ($dir === 'asc') ? 'headerSortDown' : 'headerSortUp';
 		}
 
 		return sprintf('<th class="blue header %s">%s</th>', $class, $content);
