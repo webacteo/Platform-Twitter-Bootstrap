@@ -43,14 +43,19 @@ class BootstrapFormHelper extends FormHelper {
 
 		$modelKey = $this->model();
 		$fieldKey = $this->field();
-
 		if ($options['required'] || $this->_introspectModel($modelKey, 'validates', $fieldKey)) {
 			$options['label']		= $this->addClass($options['div'], 'label notice');
 			$options['required']	= true; // HTML5 requirement
+//			echo $fieldKey . ' : ';
+//			print '<pre>';
+//			var_dump($this->_introspectModel($modelKey, 'validates', $fieldKey));
+//			print '</pre>';
+//			return;
 		}
 
 		return parent::input($fieldName, $options);
 	}
+
 
 	/**
 	 * Render error messages
