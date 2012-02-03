@@ -7,21 +7,26 @@ Includes:
 	View Helpers for CakePHP to use the correct class' for TwitterBootstrap
 	Have submodule to TwitterBootstrap itself
 
-Setup (AppController):
+Setup:
 -------
-
 * Rememer to load the plugin in app/Config/bootstrap.php
-* 'Form' helper need to be changed to 'BootstrapForm' helper
-* 'Paginator' helper need to be changed to 'BootstrapPaginator' helper
 
 	// Load TwitterBootstrap plugin, without loading bootstrap
 	CakePlugin::load('TwitterBootstrap', array('bootstrap' => false));
 
+* 'Form' helper need to be changed to 'BootstrapForm' helper
+* 'Paginator' helper need to be changed to 'BootstrapPaginator' helper
+
 	// Change default Form & Paginator
 	public $helpers = array(
-		'Form'		=> 'BootstrapForm',
-		'Paginator' => 'BootstrapPaginator'
+		'Form'		=> array('className' => 'TwitterBootstrap.BootstrapForm'),
+		'Paginator' => array('className' => 'TwitterBootstrap.BootstrapPaginator'),
 	);
+
+
+Using Crud plugin aswell?
+	Add this to $helpers
+		'Js'		=> array('className' => 'Crud.CrudJs', 'Jquery')
 
 Usage ex.
 -------
