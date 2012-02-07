@@ -1,6 +1,6 @@
 <?php
-$modelHumanNameSingular = Inflector::humanize(Inflector::underscore($model));
-$modelHumanNamePlural	= Inflector::pluralize($modelHumanNameSingular);
+$modelHumanNameSingular = Inflector::humanize(Inflector::underscore($model)); // Project
+$modelHumanNamePlural	= Inflector::pluralize($modelHumanNameSingular); // Projects
 
 $baseUrl = array(
 	'prefix'		=> Router::getParam('prefix'),
@@ -11,7 +11,7 @@ $baseUrl = array(
 
 $top_actions = array_merge(
 	array(
-		'10_create' => function($View) use ($modelHumanNameSingular, $baseUrl) { return $View->Html->link(__d('authentication', 'Create new %s', $modelHumanNameSingular), array('action' => 'add'), array('class' => 'btn success')); }
+		'10_create' => function($View, $modelHumanNameSingular, $baseUrl) { return $View->Html->link(__d('authentication', 'Create new %s', $modelHumanNameSingular), array('action' => 'add'), array('class' => 'btn success')); }
 	),
 	!empty($top_actions) ? $top_actions : array()
 );
@@ -19,9 +19,9 @@ uksort($top_actions, 'strcmp');
 
 $row_actions = array_merge(
 	array(
-		'10_view'	=> function($View, $item, $model) use ($baseUrl) { return $View->Html->link(__d('common', 'View'),		array('action' => 'view',	$item[$model]['id']) + $baseUrl, array('class' => 'btn'));			},
-		'20_edit'	=> function($View, $item, $model) use ($baseUrl) { return $View->Html->link(__d('common', 'Edit'),		array('action' => 'edit',	$item[$model]['id']) + $baseUrl, array('class' => 'btn primary')); },
-		'30_delete' => function($View, $item, $model) use ($baseUrl) { return $View->Form->postLink(__d('common', 'Delete'), array('action' => 'delete', $item[$model]['id']) + $baseUrl, array('class' => 'btn danger'));
+		'10_view'	=> function($View, $item, $model, $baseUrl) { return $View->Html->link(__d('common', 'View'),		array('action' => 'view',	$item[$model]['id']) + $baseUrl, array('class' => 'btn'));			},
+		'20_edit'	=> function($View, $item, $model, $baseUrl) { return $View->Html->link(__d('common', 'Edit'),		array('action' => 'edit',	$item[$model]['id']) + $baseUrl, array('class' => 'btn primary')); },
+		'30_delete' => function($View, $item, $model, $baseUrl) { return $View->Form->postLink(__d('common', 'Delete'), array('action' => 'delete', $item[$model]['id']) + $baseUrl, array('class' => 'btn danger'));
 }),
 	!empty($row_actions) ? $row_actions : array()
 );
@@ -34,7 +34,7 @@ uksort($row_actions, 'strcmp');
 		<?php
 		foreach ($top_actions as $action) {
 			if (is_callable($action)) {
-				echo call_user_func($action, $this, $baseUrl);
+				echo call_user_func($action, $this, $modelHumanNameSingular, $baseUrl);
 			} else {
 				echo $action;
 			}
