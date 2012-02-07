@@ -17,15 +17,18 @@ $top_actions = array_merge(
 );
 uksort($top_actions, 'strcmp');
 ?>
+
 <div class="page-header">
 	<?php
+	$displayField = (isset($displayField) && !empty($displayField)) ? $displayField : 'name'; // @todo fix read $model->displayField
+
 	if ($this->Form->value(sprintf('%s.id', $model))) {
 		?>
-		<h1><?php echo __d($modelHumanNamePluralLowerCase, sprintf('Edit %s', $modelHumanNameSingularLowerCase)); ?> <small><?php echo __d($modelHumanNamePluralLowerCase, 'You are currently editing "%s"', $this->Form->value(sprintf('%s.name', $model))); ?></small></h1>
+		<h1><?php echo __d($modelHumanNamePluralLowerCase, sprintf('Edit %s', $modelHumanNameSingularLowerCase)); ?> <small><?php echo __d($modelHumanNamePluralLowerCase, 'You are currently editing "%s"', $this->Form->value(sprintf('%s.%s', $model, $displayField))); ?></small></h1>
 		<?php
 	} else {
 		?>
-		<h1><?php echo __d($modelHumanNamePluralLowerCase, 'Create project')?> <small><?php echo __d($modelHumanNamePluralLowerCase, 'Create a new project');?></small></h1>
+		<h1><?php echo __d($modelHumanNamePluralLowerCase, sprintf('Create %s', $modelHumanNamePluralLowerCase)); ?> <small><?php echo __d($modelHumanNamePluralLowerCase, sprintf('Create a new %s', $modelHumanNamePluralLowerCase)); ?></small></h1>
 		<?php
 	}
 	?>
@@ -47,7 +50,7 @@ uksort($top_actions, 'strcmp');
 <div class="row">
 	<div class="span4 colums">
 		<h2><?php echo __d($modelHumanNamePluralLowerCase, 'Basic information'); ?></h2>
-		<p><?php echo __d($modelHumanNamePluralLowerCase, 'Basic project information');?></p>
+		<p><?php echo __d($modelHumanNamePluralLowerCase, 'Basic ' . $modelHumanNamePluralLowerCase . ' information');?></p>
 	</div>
 
 	<div class="span12 colums">
@@ -63,6 +66,10 @@ uksort($top_actions, 'strcmp');
 			foreach ($columns as $column => $settings) {
 				if(is_array($settings)) {
 					$fieldName = $column;
+					$default = array(
+						'label' => $fieldName
+					);
+					$settings = array_merge($default, $settings);
 				} else {
 					$fieldName = $settings;
 					$settings = array('label' => __d($modelHumanNamePluralLowerCase, ucfirst($fieldName)));
@@ -73,9 +80,15 @@ uksort($top_actions, 'strcmp');
 				}
 
 				// Change label to human readable
-				$settings['label'] = Inflector::humanize(Inflector::underscore($settings['label']));
+				$settings['label']	= Inflector::humanize(Inflector::underscore($settings['label']));
+				$settings['type']	= (isset($settings['type']) && !empty($settings['type'])) ? $settings['type'] : 'text';
 
-				echo $this->Form->input($fieldName, $settings);
+				if (isset($settings['element']) && !empty($settings['element'])) {
+					$pluginSplit = pluginSplit($settings['element']);
+					echo $this->element($pluginSplit[1], array('field' => $fieldName), array('plugin' => $pluginSplit[0]));
+				} else {
+					echo $this->Form->input($fieldName, $settings);
+				}
 			}
 			?>
 			<div class="actions">
