@@ -1,4 +1,4 @@
-CakePHP 2.x plugin for Twitter Bootstrap 1.0 Compatible output
+CakePHP 2.x plugin for Twitter Bootstrap 2.0 Compatible output
 ============
 
 Includes:
