@@ -59,7 +59,10 @@ $this->Paginator->options(array('update' => '.content', 'evalScripts' => true));
 				} else {
 					$columnName = $column;
 				}
-				$columnName = Inflector::humanize(Inflector::underscore($settings['name']));
+
+				// Change label to human readable
+				$columnName = pluginSplit($columnName); // We only want the "label" part
+				$columnName = Inflector::humanize(Inflector::underscore($columnName[1]));
 
 				echo $this->Paginator->sortTableHeader($column, $columnName);
 			}
