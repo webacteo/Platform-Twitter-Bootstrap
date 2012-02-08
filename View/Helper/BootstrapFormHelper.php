@@ -20,7 +20,7 @@ class BootstrapFormHelper extends FormHelper {
 			'between'	=> '<div class="input">',
 			'after'		=> '</div>',
 			'format'	=> array('before', 'label', 'between', 'input', 'error', 'after'),
-			'class'		=> 'span10',
+			'class'		=> 'span9', // @todo make this dynamic
 			'div'		=> array(
 				'class' => 'clearfix'
 			),
@@ -51,6 +51,64 @@ class BootstrapFormHelper extends FormHelper {
 		return parent::input($fieldName, $options);
 	}
 
+
+	/**
+	 * Creates an HTML link, but access the url using method DELETE.
+	 * Requires javascript to be enabled in browser.
+	 *
+	 * This method creates a `<form>` element. So do not use this method inside an existing form.
+	 * Instead you should add a submit button using FormHelper::submit()
+	 *
+	 * ### Options:
+	 *
+	 * - `data` - Array with key/value to pass in input hidden
+	 * - `confirm` - Can be used instead of $confirmMessage.
+	 * - Other options is the same of HtmlHelper::link() method.
+	 * - The option `onclick` will be replaced.
+	 *
+	 * @param string $title The content to be wrapped by <a> tags.
+	 * @param mixed $url Cake-relative URL or array of URL parameters, or external URL (starts with http://)
+	 * @param array $options Array of HTML attributes.
+	 * @param string $confirmMessage JavaScript confirmation message.
+	 * @return string An `<a />` element.
+	 * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/form.html#FormHelper::postLink
+	 */
+	public function deleteLink($title, $url = null, $options = array(), $confirmMessage = false) {
+		if (!empty($options['confirm'])) {
+			$confirmMessage = $options['confirm'];
+			unset($options['confirm']);
+		}
+
+		$formName = uniqid('post_');
+		$formUrl = $this->url($url);
+		$out = $this->Html->useTag('form', $formUrl, array('name' => $formName, 'id' => $formName, 'style' => 'display:none;', 'method' => 'post'));
+		$out .= $this->Html->useTag('hidden', '_method', ' value="DELETE"');
+		$out .= $this->_csrfField();
+
+		$fields = array();
+		if (isset($options['data']) && is_array($options['data'])) {
+			foreach ($options['data'] as $key => $value) {
+				$fields[$key] = $value;
+				$out .= $this->hidden($key, array('value' => $value, 'id' => false));
+			}
+			unset($options['data']);
+		}
+		$out .= $this->secure($fields);
+		$out .= $this->Html->useTag('formend');
+
+		$url = '#';
+		$onClick = 'document.' . $formName . '.submit();';
+		if ($confirmMessage) {
+			$confirmMessage = str_replace(array("'", '"'), array("\'", '\"'), $confirmMessage);
+			$options['onclick'] = "if (confirm('{$confirmMessage}')) { {$onClick} }";
+		} else {
+			$options['onclick'] = $onClick;
+		}
+		$options['onclick'] .= ' event.returnValue = false; return false;';
+
+		$out .= $this->Html->link($title, $url, $options);
+		return $out;
+	}
 
 	/**
 	 * Render error messages
