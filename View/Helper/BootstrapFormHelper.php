@@ -10,6 +10,7 @@ class BootstrapFormHelper extends FormHelper {
 	*
 	* @param string $fieldName
 	* @param array $options
+	*
 	* @return string
 	*/
 	public function input($fieldName, $options = array()) {
@@ -25,30 +26,36 @@ class BootstrapFormHelper extends FormHelper {
 			),
 			'error'		=> array(
 				'attributes' => array(
-					'class' =>'help-block error',
-					'wrap' => 'span'
+					'class' => 'help-block error',
+					'wrap'	=> 'span'
 				)
 			),
-			'help' => '',
-			'required' => false
+			'help'		=> '',
+			'required'	=> false
 		);
 
 		$options = array_merge($defaults, $options);
 
+		// Use TwitterBootstraps help block
 		if (!empty($options['help'])) {
 			$options['after'] = '<span class="help-block">' . $options['help'] . '</span>' . $options['after'];
 		}
 
 		$modelKey = $this->model();
 		$fieldKey = $this->field();
-
 		if ($options['required'] || $this->_introspectModel($modelKey, 'validates', $fieldKey)) {
 			$options['label']		= $this->addClass($options['div'], 'label notice');
 			$options['required']	= true; // HTML5 requirement
+//			echo $fieldKey . ' : ';
+//			print '<pre>';
+//			var_dump($this->_introspectModel($modelKey, 'validates', $fieldKey));
+//			print '</pre>';
+//			return;
 		}
 
 		return parent::input($fieldName, $options);
 	}
+
 
 	/**
 	 * Creates an HTML link, but access the url using method DELETE.
@@ -114,6 +121,7 @@ class BootstrapFormHelper extends FormHelper {
 	 * @param string $field
 	 * @param mixed $text
 	 * @param array $options
+	 *
 	 * @return string
 	 */
 	public function error($field, $text = null, $options = array()) {
@@ -129,6 +137,7 @@ class BootstrapFormHelper extends FormHelper {
 	 * Submit button
 	 *
 	 * @param string $label
+	 *
 	 * @return string
 	 */
 	public function submit($label = null) {
