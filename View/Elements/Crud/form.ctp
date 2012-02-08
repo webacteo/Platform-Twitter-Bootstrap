@@ -80,12 +80,12 @@ uksort($top_actions, 'strcmp');
 				}
 
 				// Change label to human readable
-				$settings['label']	= Inflector::humanize(Inflector::underscore($settings['label']));
-				$settings['type']	= (isset($settings['type']) && !empty($settings['type'])) ? $settings['type'] : 'text';
+				$settings['label']	= pluginSplit($settings['label']); // We only want the "label" part
+				$settings['label']	= Inflector::humanize(Inflector::underscore($settings['label'][1]));
 
 				if (isset($settings['element']) && !empty($settings['element'])) {
 					$pluginSplit = pluginSplit($settings['element']);
-					echo $this->element($pluginSplit[1], array('field' => $fieldName), array('plugin' => $pluginSplit[0]));
+					echo $this->element($pluginSplit[1], array('field' => $fieldName), array('plugin' => $pluginSplit[0])); // @todo fix second array()
 				} else {
 					echo $this->Form->input($fieldName, $settings);
 				}
