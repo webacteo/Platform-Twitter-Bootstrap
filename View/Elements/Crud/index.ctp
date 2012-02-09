@@ -19,10 +19,10 @@ uksort($top_actions, 'strcmp');
 
 $row_actions = array_merge(
 	array(
-		'10_view'	=> function($View, $item, $model, $baseUrl) { return $View->Html->link(__d('common', 'View'),		array('action' => 'view',	$item[$model]['id']) + $baseUrl, array('class' => 'btn'));			},
-		'20_edit'	=> function($View, $item, $model, $baseUrl) { return $View->Html->link(__d('common', 'Edit'),		array('action' => 'edit',	$item[$model]['id']) + $baseUrl, array('class' => 'btn primary')); },
-		'30_delete' => function($View, $item, $model, $baseUrl) { return $View->Form->postLink(__d('common', 'Delete'), array('action' => 'delete', $item[$model]['id']) + $baseUrl, array('class' => 'btn danger'));
-}),
+		'10_view'	=> function($View, $item, $model, $baseUrl) { return $View->Html->link(__d('common', 'View'),			array('action' => 'view',	$item[$model]['id']) + $baseUrl, array('class' => 'btn')); },
+		'20_edit'	=> function($View, $item, $model, $baseUrl) { return $View->Html->link(__d('common', 'Edit'),			array('action' => 'edit',	$item[$model]['id']) + $baseUrl, array('class' => 'btn primary')); },
+		'30_delete' => function($View, $item, $model, $baseUrl) { return $View->Form->deleteLink(__d('common', 'Delete'),	array('action' => 'delete', $item[$model]['id']) + $baseUrl, array('class' => 'btn danger')); }
+	),
 	!empty($row_actions) ? $row_actions : array()
 );
 uksort($row_actions, 'strcmp');
