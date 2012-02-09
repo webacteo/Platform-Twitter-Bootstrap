@@ -1,8 +1,8 @@
 <?php
-$modelHumanNameSingular = Inflector::humanize(Inflector::underscore($model)); // Project
-$modelHumanNamePlural	= Inflector::pluralize($modelHumanNameSingular); // Projects
-$modelHumanNameSingularLowerCase = strtolower($modelHumanNameSingular); // project
-$modelHumanNamePluralLowerCase = strtolower($modelHumanNamePlural); // projects
+$modelHumanNameSingular				= Inflector::humanize(Inflector::underscore($model)); // Project
+$modelHumanNamePlural				= Inflector::pluralize($modelHumanNameSingular); // Projects
+$modelHumanNameSingularLowerCase	= strtolower($modelHumanNameSingular); // project
+$modelHumanNamePluralLowerCase		= strtolower($modelHumanNamePlural); // projects
 
 $baseUrl = array(
 	'prefix'		=> Router::getParam('prefix'),
@@ -11,48 +11,41 @@ $baseUrl = array(
 	'action'		=> Router::getParam('action')
 );
 
+if (!isset($settings)) {
+	$settings = array();
+}
+
+$settings = array_merge(array(
+	'showHeader' => true
+), (array)$settings);
+
 $top_actions = array_merge(
 	array(),
 	!empty($top_actions) ? $top_actions : array()
 );
 uksort($top_actions, 'strcmp');
-?>
 
-<div class="page-header">
-	<?php
-	$displayField = (isset($displayField) && !empty($displayField)) ? $displayField : 'name'; // @todo fix read $model->displayField
-
-	if ($this->Form->value(sprintf('%s.id', $model))) {
-		?>
-		<h2><?php echo __d($modelHumanNamePluralLowerCase, sprintf('Edit %s', $modelHumanNameSingularLowerCase)); ?> <small><?php echo __d($modelHumanNamePluralLowerCase, 'You are currently editing "%s"', $this->Form->value(sprintf('%s.%s', $model, $displayField))); ?></small></h2>
-		<?php
-	} else {
-		?>
-		<h2><?php echo __d($modelHumanNamePluralLowerCase, sprintf('Create %s', $modelHumanNamePluralLowerCase)); ?> <small><?php echo __d($modelHumanNamePluralLowerCase, sprintf('Create a new %s', $modelHumanNamePluralLowerCase)); ?></small></h2>
-		<?php
-	}
+if ($settings['showHeader']) {
 	?>
-	<div class="page-header-actions">
+	<div class="header">
 		<?php
-		foreach ($top_actions as $action) {
-			if (is_callable($action)) {
-				echo call_user_func($action, $this, $baseUrl, $model);
-			} else {
-				echo $action;
-			}
-			echo '&nbsp;';
+		if ($this->Form->value(sprintf('%s.id', $model))) {
+			?>
+			<h4><?php echo sprintf('Edit %s', $modelHumanNameSingularLowerCase); ?></h4>
+			<?php
+		} else {
+			?>
+			<h4><?php echo sprintf('Create %s', $modelHumanNameSingularLowerCase); ?></h4>
+			<?php
 		}
 		?>
 	</div>
-</div>
+	<?php
+}
+?>
 
 <!-- Basic information -->
 <div class="row">
-	<div class="span4 colums">
-		<h2><?php echo __d($modelHumanNamePluralLowerCase, 'Basic information'); ?></h2>
-		<p><?php echo __d($modelHumanNamePluralLowerCase, 'Basic ' . $modelHumanNamePluralLowerCase . ' information');?></p>
-	</div>
-
 	<div class="span12 colums">
 	<?php
 	echo $this->Form->create($model);
@@ -63,16 +56,16 @@ uksort($top_actions, 'strcmp');
 				echo $this->Form->input('id');
 			}
 
-			foreach ($columns as $column => $settings) {
-				if(is_array($settings)) {
+			foreach ($columns as $column => $config) {
+				if(is_array($config)) {
 					$fieldName = $column;
 					$default = array(
 						'label' => $fieldName
 					);
-					$settings = array_merge($default, $settings);
+					$config = array_merge($default, $config);
 				} else {
-					$fieldName = $settings;
-					$settings = array('label' => __d($modelHumanNamePluralLowerCase, ucfirst($fieldName)));
+					$fieldName = $config;
+					$config = array('label' => __d($modelHumanNamePluralLowerCase, ucfirst($fieldName)));
 				}
 
 				if($fieldName == 'id') {
@@ -80,14 +73,14 @@ uksort($top_actions, 'strcmp');
 				}
 
 				// Change label to human readable
-				$settings['label']	= pluginSplit($settings['label']); // We only want the "label" part
-				$settings['label']	= Inflector::humanize(Inflector::underscore($settings['label'][1]));
+				$config['label']	= pluginSplit($config['label']); // We only want the "label" part
+				$config['label']	= Inflector::humanize(Inflector::underscore($config['label'][1]));
 
-				if (isset($settings['element']) && !empty($settings['element'])) {
-					$pluginSplit = pluginSplit($settings['element']);
+				if (isset($config['element']) && !empty($config['element'])) {
+					$pluginSplit = pluginSplit($config['element']);
 					echo $this->element($pluginSplit[1], array('field' => $fieldName), array('plugin' => $pluginSplit[0])); // @todo fix second array()
 				} else {
-					echo $this->Form->input($fieldName, $settings);
+					echo $this->Form->input($fieldName, $config);
 				}
 			}
 			?>
