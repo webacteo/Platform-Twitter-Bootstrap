@@ -24,11 +24,11 @@ uksort($top_actions, 'strcmp');
 
 	if ($this->Form->value(sprintf('%s.id', $model))) {
 		?>
-		<h1><?php echo __d($modelHumanNamePluralLowerCase, sprintf('Edit %s', $modelHumanNameSingularLowerCase)); ?> <small><?php echo __d($modelHumanNamePluralLowerCase, 'You are currently editing "%s"', $this->Form->value(sprintf('%s.%s', $model, $displayField))); ?></small></h1>
+		<h2><?php echo __d($modelHumanNamePluralLowerCase, sprintf('Edit %s', $modelHumanNameSingularLowerCase)); ?> <small><?php echo __d($modelHumanNamePluralLowerCase, 'You are currently editing "%s"', $this->Form->value(sprintf('%s.%s', $model, $displayField))); ?></small></h2>
 		<?php
 	} else {
 		?>
-		<h1><?php echo __d($modelHumanNamePluralLowerCase, sprintf('Create %s', $modelHumanNamePluralLowerCase)); ?> <small><?php echo __d($modelHumanNamePluralLowerCase, sprintf('Create a new %s', $modelHumanNamePluralLowerCase)); ?></small></h1>
+		<h2><?php echo __d($modelHumanNamePluralLowerCase, sprintf('Create %s', $modelHumanNamePluralLowerCase)); ?> <small><?php echo __d($modelHumanNamePluralLowerCase, sprintf('Create a new %s', $modelHumanNamePluralLowerCase)); ?></small></h2>
 		<?php
 	}
 	?>

@@ -29,7 +29,7 @@ uksort($row_actions, 'strcmp');
 ?>
 
 <div class="page-header">
-	<h1><?php echo __d('authentication', $modelHumanNamePlural)?> <small><?php echo __d('authentication', 'Manage %s', $modelHumanNamePlural);?></small></h1>
+	<h2><?php echo __d('authentication', $modelHumanNamePlural)?> <small><?php echo __d('authentication', 'Manage %s', $modelHumanNamePlural);?></small></h2>
 	<div class="page-header-actions">
 		<?php
 		foreach ($top_actions as $action) {
@@ -45,7 +45,7 @@ uksort($row_actions, 'strcmp');
 </div>
 
 <?php
-$this->Paginator->options(array('update' => '.content', 'evalScripts' => true));
+$this->Paginator->options(array('update' => '.content', 'evalScripts' => true, 'block' => 'script'));
 ?>
 
 <table class="zebra-striped">

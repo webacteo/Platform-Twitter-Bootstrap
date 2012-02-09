@@ -15,7 +15,7 @@ class BootstrapPaginatorHelper extends PaginatorHelper {
 	 * @return string
 	 */
 	public function sortTableHeader($key, $title = null, $options = array()) {
-		$content = parent::sort($key, $title, $options);
+		$content = parent::sort($key, $title, $options + array('block' => 'script'));
 
 		$options = array_merge(array('url' => array(), 'model' => null), $options);
 
