@@ -1,3 +1,0 @@
-[submodule "webroot/base"]
-	path = webroot/base
-	url = git://github.com/twitter/bootstrap.git
