@@ -7,6 +7,9 @@ Includes:
 	View Helpers for CakePHP to use the correct class' for TwitterBootstrap
 	Have submodule to TwitterBootstrap itself
 
+	You can either include bootstrap.min.js in order to get support for all twitter bootstrap JS feature,
+	or you can include each module as you wish to use. See below.
+
 Setup:
 -------
 * Rememer to load the plugin in app/Config/bootstrap.php
@@ -31,16 +34,18 @@ Using Crud plugin aswell?
 Usage ex.
 -------
 	In your default.ctp
-	echo $this->Html->css('TwitterBootstrap/base/bootstrap.min');
-	echo $this->Html->script('TwitterBootstrap/base/js/bootstrap-buttons');
-	echo $this->Html->script('TwitterBootstrap/base/js/bootstrap-alerts');
-	echo $this->Html->script('TwitterBootstrap/base/js/bootstrap-dropdown');
-	echo $this->Html->script('TwitterBootstrap/base/js/bootstrap-modal');
-	echo $this->Html->script('TwitterBootstrap/base/js/bootstrap-popover');
-	echo $this->Html->script('TwitterBootstrap/base/js/bootstrap-scrollspy');
-	echo $this->Html->script('TwitterBootstrap/base/js/bootstrap-tabs');
-	echo $this->Html->script('TwitterBootstrap/base/js/bootstrap-twipsy');
+	echo $this->Html->css('/twitter_bootstrap/bootstrap.min');
+	echo $this->Html->script('/twitter_bootstrap/js/bootstrap-buttons');
+	echo $this->Html->script('/twitter_bootstrap/js/bootstrap-alerts');
+	echo $this->Html->script('/twitter_bootstrap/js/bootstrap-dropdown');
+	echo $this->Html->script('/twitter_bootstrap/js/bootstrap-modal');
+	echo $this->Html->script('/twitter_bootstrap/js/bootstrap-popover');
+	echo $this->Html->script('/twitter_bootstrap/js/bootstrap-scrollspy');
+	echo $this->Html->script('/twitter_bootstrap/js/bootstrap-tabs');
+	echo $this->Html->script('/twitter_bootstrap/js/bootstrap-twipsy');
 
 
-Christian Winther & Kim Egede Jakobsen
+Christian Winther
+Kim Egede Jakobsen
+Andreas Kristiansen
 @Nodes.dk 2012
