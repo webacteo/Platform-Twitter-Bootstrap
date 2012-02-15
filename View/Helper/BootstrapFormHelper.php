@@ -44,7 +44,9 @@ class BootstrapFormHelper extends FormHelper {
 		$modelKey = $this->model();
 		$fieldKey = $this->field();
 		if ($options['required'] || $this->_introspectModel($modelKey, 'validates', $fieldKey)) {
-			$options['label']		= $this->addClass($options['div'], 'label notice');
+			if ($options['label']) {
+				$options['label']		= $this->addClass($options['div'], 'label notice');
+			}
 			$options['required']	= true; // HTML5 requirement
 		}
 
@@ -135,11 +137,12 @@ class BootstrapFormHelper extends FormHelper {
 	 *
 	 * @return string
 	 */
-	public function submit($label = null) {
-		$options = array(
+	public function submit($label = null, $options = array()) {
+		$defaults = array(
 			'div'	=> 'actions',
 			'class' => 'btn primary'
 		);
+		$options = array_merge($defaults, $options);
 
 		return parent::submit($label, $options);
 	}
