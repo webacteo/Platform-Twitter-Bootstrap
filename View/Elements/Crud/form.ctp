@@ -76,8 +76,8 @@ if ($settings['showHeader']) {
 				$config['label']	= pluginSplit($config['label']); // We only want the "label" part
 				$config['label']	= Inflector::humanize(Inflector::underscore($config['label'][1]));
 
-				if (isset($settings['element']) && !empty($settings['element'])) {
-					echo call_user_func_array(array($this, 'element'), $settings['element']);
+				if (isset($config['element']) && !empty($config['element'])) {
+					echo call_user_func_array(array($this, 'element'), $config['element']);
 				} else {
 					echo $this->Form->input($fieldName, $config);
 				}
