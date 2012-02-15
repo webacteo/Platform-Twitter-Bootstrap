@@ -44,7 +44,7 @@ class BootstrapFormHelper extends FormHelper {
 		$modelKey = $this->model();
 		$fieldKey = $this->field();
 		if ($options['required'] || $this->_introspectModel($modelKey, 'validates', $fieldKey)) {
-			if ($options['label']) {
+			if ($options['label'] !== false && $options['label'] !== null) {
 				$options['label']		= $this->addClass($options['div'], 'label notice');
 			}
 			$options['required']	= true; // HTML5 requirement
