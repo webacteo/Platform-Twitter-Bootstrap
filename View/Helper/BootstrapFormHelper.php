@@ -17,12 +17,12 @@ class BootstrapFormHelper extends FormHelper {
 		$this->setEntity($fieldName);
 
 		$defaults = array(
-			'between'	=> '<div class="input">',
+			'between'	=> '<div class="controls">',
 			'after'		=> '</div>',
 			'format'	=> array('before', 'label', 'between', 'input', 'error', 'after'),
 			'class'		=> 'span9', // @todo make this dynamic
 			'div'		=> array(
-				'class' => 'clearfix'
+				'class' => 'control-group'
 			),
 			'error'		=> array(
 				'attributes' => array(
@@ -45,9 +45,9 @@ class BootstrapFormHelper extends FormHelper {
 		$fieldKey = $this->field();
 		if ($options['required'] || $this->_introspectModel($modelKey, 'validates', $fieldKey)) {
 			if (isset($options['label']) && !empty($options['label'])) {
-				$options['label']		= $this->addClass($options['div'], 'label notice');
+				$options['label'] = $this->addClass($options['div'], 'control-label');
 			}
-			$options['required']	= true; // HTML5 requirement
+			$options['required'] = true; // HTML5 requirement
 		}
 
 		return parent::input($fieldName, $options);
