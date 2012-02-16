@@ -11,7 +11,7 @@ $baseUrl = array(
 
 $top_actions = array_merge(
 	array(
-		'10_create' => function($View, $modelHumanNameSingular, $baseUrl) { return $View->Html->link(__d('authentication', 'Create new %s', $modelHumanNameSingular), array('action' => 'add'), array('class' => 'btn success')); }
+		'10_create' => function($View, $modelHumanNameSingular, $baseUrl) { return $View->Html->link(__d('authentication', 'Create new %s', $modelHumanNameSingular), array('action' => 'add'), array('class' => 'btn btn-success')); }
 	),
 	!empty($top_actions) ? $top_actions : array()
 );
@@ -28,9 +28,8 @@ $row_actions = array_merge(
 uksort($row_actions, 'strcmp');
 ?>
 
-<div class="page-header">
-	<h2><?php echo __d('authentication', $modelHumanNamePlural)?> <small><?php echo __d('authentication', 'Manage %s', $modelHumanNamePlural);?></small></h2>
-	<div class="page-header-actions">
+<div class="btn-toolbar pull-right">
+	<div class="btn-group single">
 		<?php
 		foreach ($top_actions as $action) {
 			if (is_callable($action)) {
@@ -43,6 +42,7 @@ uksort($row_actions, 'strcmp');
 		?>
 	</div>
 </div>
+<h2><?php echo __d('authentication', $modelHumanNamePlural)?></h2>
 
 <?php
 $this->Paginator->options(array('update' => '.content', 'evalScripts' => true, 'block' => 'script'));
