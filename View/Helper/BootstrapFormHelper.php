@@ -14,9 +14,8 @@ class BootstrapFormHelper extends FormHelper {
 	* @return string
 	*/
 	public function input($fieldName, $options = array()) {
-		$this->setEntity($fieldName);
-
 		$defaults = array(
+			'before'	=> '',
 			'between'	=> '<div class="controls">',
 			'after'		=> '</div>',
 			'format'	=> array('before', 'label', 'between', 'input', 'error', 'after'),
@@ -36,21 +35,38 @@ class BootstrapFormHelper extends FormHelper {
 
 		$options = array_merge($defaults, $options);
 
-		// Use TwitterBootstraps help block
-		if (!empty($options['help'])) {
-			$options['after'] = '<span class="help-block">' . $options['help'] . '</span>' . $options['after'];
-		}
-
-		$modelKey = $this->model();
-		$fieldKey = $this->field();
-		if ($options['required'] || $this->_introspectModel($modelKey, 'validates', $fieldKey)) {
-			if (isset($options['label']) && !empty($options['label'])) {
-				$options['label'] = $this->addClass($options['div'], 'control-label');
-			}
-			$options['required'] = true; // HTML5 requirement
+		if (isset($options['actions'])) {
+			$options['after'] .= '<div class="actions">' . join("\n", $options['actions']) . '</div>';
+			unset($options['actions']);
 		}
 
 		return parent::input($fieldName, $options);
+	}
+
+	public function label($fieldName = null, $text = null, $options = array()) {
+		$options = $this->addClass($options, 'control-label');
+
+		$s = parent::label($fieldName, $text, $options);
+		if (!empty($this->_labelHelpText)) {
+			return sprintf('<div class="descr">%s<p>%s</p></div>', $s, $this->_labelHelpText);
+		}
+
+		if (!empty($options['help'])) {
+			return sprintf('<div class="descr">%s<p>%s</p></div>', $s, $options['help']);
+		}
+
+		return sprintf('<div class="descr">%s</div>', $s);
+	}
+
+
+	protected function _inputLabel($fieldName, $label, $options) {
+		if (isset($options['help'])) {
+			$this->_labelHelpText = $options['help'];
+		}
+
+		$label = parent::_inputLabel($fieldName, $label, $options);
+		$this->_labelHelpText = '';
+		return $label;
 	}
 
 
