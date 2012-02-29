@@ -10,6 +10,7 @@ Includes:
 	You can either include bootstrap.min.js in order to get support for all twitter bootstrap JS feature,
 	or you can include each module as you wish to use. See below.
 
+
 Setup:
 -------
 * Rememer to load the plugin in app/Config/bootstrap.php
